@@ -9,6 +9,8 @@ output: word_document
 
 A new regulations by the FDA forces the ABC company to understand our manufacturing process as it relates to the pH of the bevrages we produced. To this effect, a predictive model has been commissioned by the Production manager to better understand the predictive factors and report on the predictive model of pH.  
 
+Our goal is to present to our boss a better understanding of which combination of factors most accurately predict the acidity levels in our company's manufactured beverages as measured by pH so that they can optimize the manufacturing process to keep up with stricter regulations. (PB)
+
 ##Business Considrations  
 
 * VB- To be determined, level of accuracy, complexity, ... based on our models results*
@@ -16,16 +18,16 @@ A new regulations by the FDA forces the ABC company to understand our manufactur
 ## Deliverables 
 
 * A Executive level report of the findings
-* A Detail tecnical reports to be reviewed by an outside consultant 
+* A Detailed technical report to be reviewed by an outside consultant 
 
-## Thecnical Considerations 
+## Technical Considerations 
 
-The team is opeating under a ver tight deadline, the deliverables have to be remitted on 05/22/2018. Since the team is operating remotely in various location, the following tools were adopted to enhanced efficient communication; 
+The team is operating under a very tight deadline. The deliverables have to be remitted on 05/22/2018. Since the team is operating remotely in various location, the following tools were adopted to enhanced efficient communication; 
 
 * Slack was used for daily communication during the project and for quick access to code and documentation.
 * GoToMeeting was utilized for regular touch point meetings and on as needed basis.  
-* Github was used for version control management and to ensure each team member had access to the latest version of the project documentation
-* R was used to perform analysis, R code can be found in Appendix A for Technical report 
+* Github was used for version control management and to ensure each team member had access to the latest version of the project documentation.
+* R was used to perform analysis, R code can be found in Appendix A for Technical report. 
 
 **Team Members**  
 Prashant Bhuyan (Team Leader)  
@@ -101,13 +103,24 @@ beverages_d <- beverages_d %>%
 kable(beverages_d)
 ```
 
-From the skewness coefficient, we observed that some variables may have a right skewed distribution (PSC.CO2, Temperature, Oxygen.Filler, Air.Pressurer) or a left skewed distribution (Filler.Speed, MFR). As we observed prior, we have missing values for some of the variables, we will need to take this into considerations.
+From the skewness coefficient, we observed that some variables may have a right skewed distribution (PSC.CO2, Temperature, Oxygen.Filler, Air.Pressurer) or a left skewed distribution (Filler.Speed, MFR). As we observed prior, we have missing values for some of the variables, we will need to take this into considerations. By summarizing the data, we can see that most variables are sparse. (PB)
+
 
 ##Analysis of predictors  
 
 We will now examined each predictor to understand their distribution and determine whether any transformation is required.
 
+We can also see from the histogram plots of individual variables that CarbPressure1, CarbPressure2, CarbTemp, CarbVol, FillOunces, PCVol and pH seem to be nearly normally distributed. We also see that AirPress, OxyFiller, PSC, PSCFill and Temp are left skewed while UsageCont seems to be right skewed. Interestingly, MNFFlow has negative values. Many of the variables seem to exhibit sparcity suc AlchRel, BowSetpoint, CarbFlow, FillerLevel, FillerSpeed, FillPressure, HydPress, HydPress2, HydPress3, MFR, MNFFlow, PressureSetpoint, PresVac and PSCCo2. (PB) 
+
 ```{r Histograms, echo=FALSE, message=FALSE, warning=FALSE}
+
+# plot distributions of each independent variables (PB)
+beverages_d %>%
+  keep(is.numeric) %>%
+  gather() %>%
+  ggplot(aes(value)) + 
+    facet_wrap(~ key, scales = "free") + 
+    geom_histogram()
 
 # from DataExplorer Package
 plot_histogram(beverages)
